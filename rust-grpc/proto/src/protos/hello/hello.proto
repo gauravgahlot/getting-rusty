@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package hello;
+
+import "messages/hello/v1/message.proto";
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (messages.hello.v1.HelloRequest) returns (messages.hello.v1.HelloResponse) {}
+}

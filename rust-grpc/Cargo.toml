@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "proto",
+    "grpc-server",
+    "grpc-client",
+]

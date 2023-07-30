@@ -3,5 +3,6 @@ name = "hello-world"
 version = "0.1.0"
 edition = "2021"
 
+# https://doc.rust-lang.org/reference/linkage.html
 [lib]
 crate-type = ["dylib"]

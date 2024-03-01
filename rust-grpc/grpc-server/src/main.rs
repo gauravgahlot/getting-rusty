@@ -1,7 +1,5 @@
-use proto::messages::hello::v1 as messages;
-use messages::{HelloRequest, HelloResponse};
+use proto::messages::hello::v1::{HelloRequest, HelloResponse};
 use proto::svc::greeter_server::{Greeter, GreeterServer};
-
 
 use tonic::{transport::Server, Request, Response, Status};
 

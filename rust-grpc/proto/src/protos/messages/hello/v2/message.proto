@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package messages.hello.v1;
+package messages.hello.v2;
 
 // The request message containing the user's name.
-message HelloRequestNew {
+message Request {
   string name = 1;
 }
 
 // The response message containing the greetings
-message HelloResponseNew {
+message Response {
   string message = 1;
 }

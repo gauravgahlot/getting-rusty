@@ -3,11 +3,11 @@ syntax = "proto3";
 package messages.hello.v1;
 
 // The request message containing the user's name.
-message HelloRequest {
+message Request {
   string name = 1;
 }
 
 // The response message containing the greetings
-message HelloResponse {
+message Response {
   string message = 1;
 }

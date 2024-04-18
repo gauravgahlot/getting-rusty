@@ -8,8 +8,8 @@ import "messages/hello/v2/message.proto";
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc SayHello (messages.hello.v1.HelloRequest) returns (messages.hello.v1.HelloResponse) {}
+  rpc SayHello (messages.hello.v1.Request) returns (messages.hello.v1.Response) {}
 
   // Wave off
-  rpc WaveOff (messages.hello.v2.HelloRequestNew) returns (messages.hello.v2.HelloResponseNew) {}
+  rpc WaveOff (messages.hello.v2.Request) returns (messages.hello.v2.Response) {}
 }

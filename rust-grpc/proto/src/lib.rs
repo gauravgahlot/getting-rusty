@@ -7,8 +7,8 @@ pub mod messages {
     pub mod hello {
         #[path = "messages.hello.v1.rs"]
         pub mod v1;
-        
-        #[path = "messages.hello.v1.rs"]
+
+        #[path = "messages.hello.v2.rs"]
         pub mod v2;
     }
 }

@@ -87,11 +87,9 @@ pub mod greeter_client {
         /// Sends a greeting
         pub async fn say_hello(
             &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::messages::hello::v1::HelloRequest,
-            >,
+            request: impl tonic::IntoRequest<super::super::messages::hello::v1::Request>,
         ) -> std::result::Result<
-            tonic::Response<super::super::messages::hello::v1::HelloResponse>,
+            tonic::Response<super::super::messages::hello::v1::Response>,
             tonic::Status,
         > {
             self.inner
@@ -109,6 +107,29 @@ pub mod greeter_client {
             req.extensions_mut().insert(GrpcMethod::new("hello.Greeter", "SayHello"));
             self.inner.unary(req, path, codec).await
         }
+        /// Wave off
+        pub async fn wave_off(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::messages::hello::v2::Request>,
+        ) -> std::result::Result<
+            tonic::Response<super::super::messages::hello::v2::Response>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/hello.Greeter/WaveOff");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new("hello.Greeter", "WaveOff"));
+            self.inner.unary(req, path, codec).await
+        }
     }
 }
 /// Generated server implementations.
@@ -121,9 +142,17 @@ pub mod greeter_server {
         /// Sends a greeting
         async fn say_hello(
             &self,
-            request: tonic::Request<super::super::messages::hello::v1::HelloRequest>,
+            request: tonic::Request<super::super::messages::hello::v1::Request>,
         ) -> std::result::Result<
-            tonic::Response<super::super::messages::hello::v1::HelloResponse>,
+            tonic::Response<super::super::messages::hello::v1::Response>,
+            tonic::Status,
+        >;
+        /// Wave off
+        async fn wave_off(
+            &self,
+            request: tonic::Request<super::super::messages::hello::v2::Request>,
+        ) -> std::result::Result<
+            tonic::Response<super::super::messages::hello::v2::Response>,
             tonic::Status,
         >;
     }
@@ -213,9 +242,9 @@ pub mod greeter_server {
                     impl<
                         T: Greeter,
                     > tonic::server::UnaryService<
-                        super::super::messages::hello::v1::HelloRequest,
+                        super::super::messages::hello::v1::Request,
                     > for SayHelloSvc<T> {
-                        type Response = super::super::messages::hello::v1::HelloResponse;
+                        type Response = super::super::messages::hello::v1::Response;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,
@@ -223,7 +252,7 @@ pub mod greeter_server {
                         fn call(
                             &mut self,
                             request: tonic::Request<
-                                super::super::messages::hello::v1::HelloRequest,
+                                super::super::messages::hello::v1::Request,
                             >,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
@@ -239,6 +268,53 @@ pub mod greeter_server {
                     let fut = async move {
                         let inner = inner.0;
                         let method = SayHelloSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/hello.Greeter/WaveOff" => {
+                    #[allow(non_camel_case_types)]
+                    struct WaveOffSvc<T: Greeter>(pub Arc<T>);
+                    impl<
+                        T: Greeter,
+                    > tonic::server::UnaryService<
+                        super::super::messages::hello::v2::Request,
+                    > for WaveOffSvc<T> {
+                        type Response = super::super::messages::hello::v2::Response;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<
+                                super::super::messages::hello::v2::Request,
+                            >,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { (*inner).wave_off(request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = WaveOffSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(

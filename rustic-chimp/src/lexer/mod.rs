@@ -48,6 +48,14 @@ impl<'a> Lexer<'a> {
             // operators
             '=' => Token::Assign,
             '+' => Token::Plus,
+            '-' => Token::Minus,
+            '!' => Token::Bang,
+            '*' => Token::Asterisk,
+            '/' => Token::Slash,
+
+            // comparisons
+            '<' => Token::Lt,
+            '>' => Token::Gt,
 
             // delimeters
             ',' => Token::Comma,
@@ -117,7 +125,16 @@ let ten = 10;
 let add = fn(x, y) {
      x + y;
 };
-let result = add(five, ten);";
+
+let result = add(five, ten);
+!-/*5;
+5 < 10 > 5;
+
+if (5 < 10) {
+    return true;
+} else {
+    return false;
+}";
 
         let tests = vec![
             Token::Let,
@@ -156,6 +173,35 @@ let result = add(five, ten);";
             Token::Ident("ten".to_string()),
             Token::Rparen,
             Token::Semicolon,
+            Token::Bang,
+            Token::Minus,
+            Token::Slash,
+            Token::Asterisk,
+            Token::Int(5),
+            Token::Semicolon,
+            Token::Int(5),
+            Token::Lt,
+            Token::Int(10),
+            Token::Gt,
+            Token::Int(5),
+            Token::Semicolon,
+            Token::If,
+            Token::Lparen,
+            Token::Int(5),
+            Token::Lt,
+            Token::Int(10),
+            Token::Rparen,
+            Token::Lcurly,
+            Token::Return,
+            Token::True,
+            Token::Semicolon,
+            Token::Rcurly,
+            Token::Else,
+            Token::Lcurly,
+            Token::Return,
+            Token::False,
+            Token::Semicolon,
+            Token::Rcurly,
             Token::Eof,
         ];
 

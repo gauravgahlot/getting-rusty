@@ -45,26 +45,35 @@ impl<'a> Lexer<'a> {
         self.skip_whitespace();
 
         let tok = match self.ch {
-            // operators
-            '=' => Token::Assign,
+            '=' => {
+                if self.peek_char() == '=' {
+                    self.read_char();
+                    Token::Eq
+                } else {
+                    Token::Assign
+                }
+            }
+            '!' => {
+                if self.peek_char() == '=' {
+                    self.read_char();
+                    Token::NotEq
+                } else {
+                    Token::Bang
+                }
+            }
+
             '+' => Token::Plus,
             '-' => Token::Minus,
-            '!' => Token::Bang,
             '*' => Token::Asterisk,
             '/' => Token::Slash,
-
-            // comparisons
             '<' => Token::Lt,
             '>' => Token::Gt,
-
-            // delimeters
             ',' => Token::Comma,
             ';' => Token::Semicolon,
             '(' => Token::Lparen,
             ')' => Token::Rparen,
             '{' => Token::Lcurly,
             '}' => Token::Rcurly,
-
             '\0' => Token::Eof,
             _ => {
                 if is_letter(self.ch) {
@@ -134,7 +143,11 @@ if (5 < 10) {
     return true;
 } else {
     return false;
-}";
+}
+
+10 == 10;
+10 != 9;
+";
 
         let tests = vec![
             Token::Let,
@@ -202,6 +215,14 @@ if (5 < 10) {
             Token::False,
             Token::Semicolon,
             Token::Rcurly,
+            Token::Int(10),
+            Token::Eq,
+            Token::Int(10),
+            Token::Semicolon,
+            Token::Int(10),
+            Token::NotEq,
+            Token::Int(9),
+            Token::Semicolon,
             Token::Eof,
         ];
 

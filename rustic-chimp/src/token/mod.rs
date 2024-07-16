@@ -16,8 +16,10 @@ pub enum Token {
     Slash,    // /
 
     // Comparisions
-    Lt, // <
-    Gt, // >
+    Lt,    // <
+    Gt,    // >
+    Eq,    // ==
+    NotEq, // !=
 
     // Delimeters
     Comma,     // ,
